@@ -76,7 +76,7 @@ public class SettingsManager {
     public void addServer(String server) {
         JSONArray servers = getServers();
         for(int i = 0; i < servers.length(); ++i) {
-            if(server.compareToIgnoreCase(server) == 0) {
+            if(servers.optString(i).compareToIgnoreCase(server) == 0) {
                 return;
             }
         }

@@ -21,4 +21,6 @@
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="no_servers_loaded">No Servers Loaded</string>
+    <string name="server_url">Server URL</string>
+    <string name="add_server">Add Server</string>
 </resources>

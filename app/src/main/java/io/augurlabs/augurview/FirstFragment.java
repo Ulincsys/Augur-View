@@ -57,6 +57,10 @@ public class FirstFragment extends Fragment {
             try {
                 nview.setText(servers.getString(i));
                 addView(nview);
+                nview.setOnClickListener(click -> {
+                    body.removeAllViews();
+                    addView(MainActivity.This.initiateInstance(nview.getText().toString()));
+                });
             } catch (JSONException e) {
                 e.printStackTrace();
             }

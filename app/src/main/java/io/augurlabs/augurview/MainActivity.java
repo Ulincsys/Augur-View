@@ -14,28 +14,31 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.DialogFragment;
 
 import android.view.View;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Space;
 import android.widget.TextView;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import io.augurlabs.augurview.util.RequestManager;
 import io.augurlabs.augurview.util.SettingsManager;
 
-import static android.graphics.Color.GRAY;
-import static android.graphics.Color.TRANSPARENT;
-
 public class MainActivity extends AppCompatActivity {
 
-    public static String URL = "http://augur.osshealth.io:5055/api/unstable";
+    public static String defaultURL = "http://augur.osshealth.io:5055/api/unstable";
+
+    private static String reposLink = "/repos";
+    private static String groupsLink = "/repo-groups";
+    private static String repoGroupLink = "/repo-groups/$ID/repos";
+
     public static MainActivity This;
     private RequestManager manager;
     private SettingsManager settings;
@@ -60,10 +63,25 @@ public class MainActivity extends AppCompatActivity {
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(view -> {
-            settings.addServer(URL);
-            FirstFragment.refresh();
+            addServer();
+            //FirstFragment.refresh();
             //FirstFragment.addView(initiateInstance(URL));
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(FirstFragment.display.getText().toString().equalsIgnoreCase("servers")) {
+            super.onBackPressed();
+        } else {
+            FirstFragment.refresh();
+        }
+
+    }
+
+    public void addServer() {
+        DialogFragment dialog = new AddServerDialog();
+        dialog.show(getSupportFragmentManager(), "url_dialog");
     }
 
     public LinearLayout initiateInstance(String URL) {
@@ -180,5 +198,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         settings.synchronize();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
     }
 }
